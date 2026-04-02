@@ -993,7 +993,7 @@ void quantize_row_q8_1_x4_T(const float * x, Block * y, int64_t k) {
             }
         }
     }
-#else
+#elif defined(__AVX2__)
     for (int i = 0; i < nb; i++) {
         int i4 = i/4, ir = i%4;
         // Load elements into 4 AVX vectors
@@ -1091,6 +1091,9 @@ void quantize_row_q8_1_x4_T(const float * x, Block * y, int64_t k) {
     }
 #endif
 }
+#else
+#error "Unsupported architecture for quantize_row_q8_1_x4_T"
+#endif
 }
 
 void quantize_row_q8_1_x4(const float * x, void * vy, int64_t k) {
