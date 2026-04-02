@@ -1089,10 +1089,8 @@ void quantize_row_q8_1_x4_T(const float * x, Block * y, int64_t k) {
             _mm256_storeu_si256((__m256i *)y[i].qs, i0);
         }
     }
-#endif
-}
 #else
-#error "Unsupported architecture for quantize_row_q8_1_x4_T"
+    static_assert(sizeof(Block) == 0, "quantize_row_q8_1_x4_T: Unsupported architecture");
 #endif
 }
 
