@@ -13,6 +13,7 @@
 #include "ggml-common.h"
 #include "iqk_quantize.h"
 #include "iqk_config.h"
+#include "iqk_common.h"
 
 #include "iqk_gemm_ktquants.h"
 
@@ -6826,8 +6827,8 @@ static void repack_q8_KV(int nrows, int n_per_row, const char * cx, char * cy, [
             // TODO
             for (int l = 0; l < 4; ++l) {
                 for (int k = 0; k < 8; ++k) for (int i = 0; i < 4; ++i) {
-                    y[ib].qs[32*l+4*k+i+  0] = x8[k][ib].qs[i+4*l+ 0];
-                    y[ib].qs[32*l+4*k+i+128] = x8[k][ib].qs[i+4*l+16];
+                    qy[32*l+4*k+i+  0 + 16*ib] = x8[k][16*ib + i+4*l+ 0];
+                    qy[32*l+4*k+i+128 + 16*ib] = x8[k][16*ib + i+4*l+16];
                 }
             }
 #endif
